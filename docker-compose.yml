@@ -1,0 +1,32 @@
+version: '3.1'
+
+services:
+  dev-codergames-ecto411:
+    image: dev-codergames-ecto411:latest
+    restart: always
+    expose:
+      - 80
+    container_name: dev-codergames-ecto411
+    stdin_open: true
+    environment:
+      # NGINX-PROXY ENVIRONMENT VARIABLES: UPDATE ME
+      VIRTUAL_HOST: ecto411.codergames.dev
+      VIRTUAL_PORT: 80
+      LETSENCRYPT_HOST: ecto411.codergames.dev
+      LETSENCRYPT_EMAIL: kevin@signalwire.com
+      # /END NGINX-PROXY ENVIRONMENT VARIABLES
+    volumes:
+      - "./flows:/flows"
+
+    networks:
+      - default
+      - mysql-net
+
+networks:
+  default:
+    external:
+      name: nginx-proxy
+  mysql-net:
+    external:
+      name: mysql-net
+
